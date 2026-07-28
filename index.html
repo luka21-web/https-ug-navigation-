@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="ka">
 <head>
-<meta charset="utf-8"><!doctype html>
-<html lang="ka">
-<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>UG Indoor Navigation — I–VIII სართული</title>
@@ -92,54 +89,3 @@ function drawRoute(){
 }
 q('#go').addEventListener('click',drawRoute);q('#clear').addEventListener('click',()=>{overlay.replaceChildren();room.value='';status.textContent='აირჩიეთ მდებარეობა და აუდიტორია.';steps.innerHTML=''});q('.toolbar-left').addEventListener('click',e=>{const b=e.target.closest('.floorbtn');if(b)showFloor(b.dataset.floor)});room.addEventListener('change',()=>{if(room.value){requestAnimationFrame(drawRoute)}});startPoint.addEventListener('change',()=>{if(room.value){requestAnimationFrame(drawRoute)}});plan.addEventListener('load',()=>{if(room.value){requestAnimationFrame(drawRoute)}});showFloor(1);
 </script></body></html>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>IV კორპუსი — აუდიტორიების ძებნა</title>
-<style>
-:root{--bg:#f5f7fb;--panel:#fff;--text:#172033;--muted:#667085;--line:#d9e0ea;--accent:#1f5fae;--accent2:#eaf2fd;--ok:#157347}
-*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-header{background:linear-gradient(135deg,#173f74,#1f6fc1);color:#fff;padding:26px 18px 34px}
-.wrap{max-width:880px;margin:auto} h1{font-size:clamp(25px,5vw,38px);margin:0 0 8px} header p{margin:0;opacity:.9}
-main{max-width:880px;margin:-18px auto 40px;padding:0 16px}
-.searchbox{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 8px 24px rgba(20,40,70,.08)}
-label{display:block;font-size:14px;font-weight:650;margin-bottom:7px} input,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:13px 14px;font-size:16px;background:#fff;color:var(--text)}
-.grid{display:grid;grid-template-columns:2fr 1fr;gap:12px} .meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
-.chip{background:var(--accent2);color:#174b84;border-radius:999px;padding:7px 10px;font-size:13px}
-.result-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 2px 10px} .result-head h2{font-size:18px;margin:0} #count{color:var(--muted);font-size:14px}
-.list{display:grid;gap:10px} .room{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px;display:grid;grid-template-columns:86px 1fr auto;align-items:center;gap:13px}
-.number{height:62px;border-radius:13px;background:var(--accent2);color:var(--accent);font-weight:800;font-size:23px;display:flex;align-items:center;justify-content:center;text-align:center}
-.room h3{margin:0 0 5px;font-size:17px} .sub{color:var(--muted);font-size:14px;line-height:1.45} .floor{font-weight:750;color:var(--accent);white-space:nowrap}
-.empty{text-align:center;background:#fff;border:1px dashed var(--line);border-radius:15px;padding:30px;color:var(--muted)}
-.notice{margin-top:18px;border-left:4px solid var(--accent);background:#fff;padding:14px 15px;border-radius:10px;color:var(--muted);font-size:14px}
-footer{text-align:center;color:var(--muted);font-size:13px;padding:16px}
-@media(max-width:620px){.grid{grid-template-columns:1fr}.room{grid-template-columns:70px 1fr}.number{height:56px;font-size:20px}.floor{grid-column:2}}
-</style>
-</head>
-<body>
-<header><div class="wrap"><h1>IV კორპუსი</h1><p>მოძებნეთ აუდიტორია ან სასწავლო სივრცე</p></div></header>
-<main>
-<section class="searchbox">
-<div class="grid">
-<div><label for="q">აუდიტორიის ნომერი ან დასახელება</label><input id="q" type="search" placeholder="მაგ.: 306, სამართლის კლინიკა, NATO" autocomplete="off"></div>
-<div><label for="floor">სართული</label><select id="floor"><option value="">ყველა სართული</option><option value="1">1 სართული</option><option value="2">2 სართული</option><option value="3">3 სართული</option><option value="4">4 სართული</option><option value="5">5 სართული</option><option value="6">6 სართული</option><option value="7">7 სართული</option><option value="8">8 სართული</option></select></div>
-</div>
-<div class="meta"><span class="chip">90 სივრცე</span><span class="chip">8 სართული</span><span class="chip">IV კორპუსი</span></div>
-</section>
-<div class="result-head"><h2>შედეგები</h2><span id="count"></span></div>
-<section id="list" class="list" aria-live="polite"></section>
-<div class="notice"><strong>საპილოტე ვერსია:</strong> ამ ეტაპზე სისტემა აჩვენებს აუდიტორიის სართულსა და ძირითად ინფორმაციას. სართულების გეგმების მიღების შემდეგ დაემატება ზუსტი მარშრუტი, ლიფტები, კიბეები და „თქვენ აქ ხართ“ ნიშნული.</div>
-</main>
-<footer>საქართველოს უნივერსიტეტი · IV კორპუსის შიდა ნავიგაციის პროტოტიპი</footer>
-<script>
-const rooms=[{"room": "109", "name": "საინჟინრო ფიზიკის ლაბორატორია 2", "floor": 1, "capacity": 25, "usage": 40}, {"room": "121", "name": "", "floor": 1, "capacity": 52, "usage": 46}, {"room": "123", "name": "სამართლის კლინიკა", "floor": 1, "capacity": 10, "usage": 2}, {"room": "129", "name": "", "floor": 1, "capacity": 52, "usage": 40}, {"room": "201", "name": "", "floor": 2, "capacity": 24, "usage": 41}, {"room": "202", "name": "", "floor": 2, "capacity": 15, "usage": 16}, {"room": "203", "name": "", "floor": 2, "capacity": 24, "usage": 42}, {"room": "204", "name": "", "floor": 2, "capacity": 32, "usage": 39}, {"room": "206", "name": "", "floor": 2, "capacity": 30, "usage": 38}, {"room": "207", "name": "", "floor": 2, "capacity": 5, "usage": 2}, {"room": "210", "name": "", "floor": 2, "capacity": 25, "usage": 32}, {"room": "211", "name": "", "floor": 2, "capacity": 20, "usage": 36}, {"room": "212", "name": "", "floor": 2, "capacity": 5, "usage": 1}, {"room": "213", "name": "", "floor": 2, "capacity": 15, "usage": 1}, {"room": "214", "name": "", "floor": 2, "capacity": 56, "usage": 38}, {"room": "215", "name": "", "floor": 2, "capacity": 30, "usage": 2}, {"room": "216", "name": "ლაბორატორია", "floor": 2, "capacity": 20, "usage": 7}, {"room": "218", "name": "", "floor": 2, "capacity": 24, "usage": 42}, {"room": "220", "name": "", "floor": 2, "capacity": 40, "usage": 34}, {"room": "301", "name": "", "floor": 3, "capacity": 26, "usage": 35}, {"room": "302", "name": "", "floor": 3, "capacity": 24, "usage": 37}, {"room": "303", "name": "", "floor": 3, "capacity": 13, "usage": 9}, {"room": "304", "name": "", "floor": 3, "capacity": 24, "usage": 40}, {"room": "305", "name": "", "floor": 3, "capacity": 54, "usage": 42}, {"room": "306", "name": "", "floor": 3, "capacity": 24, "usage": 37}, {"room": "307", "name": "", "floor": 3, "capacity": 24, "usage": 38}, {"room": "308", "name": "", "floor": 3, "capacity": 58, "usage": 49}, {"room": "309", "name": "", "floor": 3, "capacity": 24, "usage": 41}, {"room": "310", "name": "", "floor": 3, "capacity": 26, "usage": 35}, {"room": "311", "name": "", "floor": 3, "capacity": 38, "usage": 31}, {"room": "312", "name": "", "floor": 3, "capacity": 24, "usage": 40}, {"room": "313", "name": "", "floor": 3, "capacity": 28, "usage": 35}, {"room": "313", "name": "A", "floor": 3, "capacity": 24, "usage": 30}, {"room": "314", "name": "", "floor": 3, "capacity": 41, "usage": 35}, {"room": "315", "name": "", "floor": 3, "capacity": 36, "usage": 35}, {"room": "316", "name": "", "floor": 3, "capacity": 36, "usage": 32}, {"room": "317", "name": "", "floor": 3, "capacity": 27, "usage": 36}, {"room": "318", "name": "", "floor": 3, "capacity": 61, "usage": 53}, {"room": "319", "name": "ტრენინგ-ცენტრი", "floor": 3, "capacity": 54, "usage": 19}, {"room": "320", "name": "", "floor": 3, "capacity": 60, "usage": 61}, {"room": "324", "name": "", "floor": 3, "capacity": 24, "usage": 27}, {"room": "325", "name": "", "floor": 3, "capacity": 38, "usage": 5}, {"room": "326", "name": "", "floor": 3, "capacity": 26, "usage": 36}, {"room": "327", "name": "", "floor": 3, "capacity": 12, "usage": 7}, {"room": "401", "name": "", "floor": 4, "capacity": 24, "usage": 38}, {"room": "402", "name": "", "floor": 4, "capacity": 25, "usage": 33}, {"room": "403", "name": "", "floor": 4, "capacity": 24, "usage": 41}, {"room": "404", "name": "", "floor": 4, "capacity": 26, "usage": 33}, {"room": "405", "name": "", "floor": 4, "capacity": 25, "usage": 33}, {"room": "406", "name": "", "floor": 4, "capacity": 26, "usage": 42}, {"room": "408", "name": "", "floor": 4, "capacity": 57, "usage": 36}, {"room": "410", "name": "", "floor": 4, "capacity": 60, "usage": 41}, {"room": "411", "name": "", "floor": 4, "capacity": 100, "usage": 54}, {"room": "411", "name": "A", "floor": 4, "capacity": 54, "usage": 32}, {"room": "416", "name": "", "floor": 4, "capacity": 40, "usage": 38}, {"room": "418", "name": "", "floor": 4, "capacity": 26, "usage": 32}, {"room": "420", "name": "", "floor": 4, "capacity": 40, "usage": 35}, {"room": "421", "name": "სასამართლო დარბაზი", "floor": 4, "capacity": 56, "usage": 22}, {"room": "423", "name": "", "floor": 4, "capacity": 6, "usage": 28}, {"room": "506", "name": "", "floor": 5, "capacity": 5, "usage": 28}, {"room": "603", "name": "", "floor": 6, "capacity": 21, "usage": 11}, {"room": "604", "name": "", "floor": 6, "capacity": 38, "usage": 43}, {"room": "605", "name": "", "floor": 6, "capacity": 19, "usage": 27}, {"room": "606", "name": "", "floor": 6, "capacity": 27, "usage": 39}, {"room": "606ა", "name": "", "floor": 6, "capacity": 27, "usage": 24}, {"room": "607", "name": "", "floor": 6, "capacity": 26, "usage": 28}, {"room": "607", "name": "A", "floor": 6, "capacity": 36, "usage": 28}, {"room": "608", "name": "", "floor": 6, "capacity": 25, "usage": 25}, {"room": "610", "name": "ხაზვა", "floor": 6, "capacity": 27, "usage": 18}, {"room": "613", "name": "", "floor": 6, "capacity": 15, "usage": 21}, {"room": "614", "name": "", "floor": 6, "capacity": 12, "usage": 21}, {"room": "615", "name": "", "floor": 6, "capacity": 23, "usage": 11}, {"room": "618", "name": "", "floor": 6, "capacity": 8, "usage": 21}, {"room": "624", "name": "", "floor": 6, "capacity": 7, "usage": 10}, {"room": "624ა", "name": "", "floor": 6, "capacity": 10, "usage": 8}, {"room": "625", "name": "", "floor": 6, "capacity": 0, "usage": 1}, {"room": "626", "name": "", "floor": 6, "capacity": 12, "usage": 9}, {"room": "629", "name": "", "floor": 6, "capacity": 28, "usage": 21}, {"room": "630", "name": "ხატვა", "floor": 6, "capacity": 40, "usage": 7}, {"room": "705", "name": "", "floor": 7, "capacity": 55, "usage": 38}, {"room": "710", "name": "NATO", "floor": 7, "capacity": 43, "usage": 25}, {"room": "802", "name": "", "floor": 8, "capacity": 30, "usage": 34}, {"room": "803", "name": "", "floor": 8, "capacity": 24, "usage": 27}, {"room": "804", "name": "", "floor": 8, "capacity": 26, "usage": 27}, {"room": "805", "name": "", "floor": 8, "capacity": 60, "usage": 32}, {"room": "806", "name": "", "floor": 8, "capacity": 25, "usage": 29}, {"room": "807", "name": "", "floor": 8, "capacity": 60, "usage": 28}, {"room": "808", "name": "", "floor": 8, "capacity": 26, "usage": 23}, {"room": "810", "name": "", "floor": 8, "capacity": 20, "usage": 16}, {"room": "810", "name": "A", "floor": 8, "capacity": 10, "usage": 1}];
-const q=document.getElementById('q'), floor=document.getElementById('floor'), list=document.getElementById('list'), count=document.getElementById('count');
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function render(){
- const query=q.value.trim().toLocaleLowerCase('ka-GE'); const f=floor.value;
- const rows=rooms.filter(r=>(!f||String(r.floor)===f)&&(!query||r.room.toLocaleLowerCase('ka-GE').includes(query)||r.name.toLocaleLowerCase('ka-GE').includes(query)));
- count.textContent=`ნაპოვნია ${rows.length}`;
- if(!rows.length){list.innerHTML='<div class="empty">მითითებული მონაცემებით აუდიტორია ვერ მოიძებნა.</div>';return}
- list.innerHTML=rows.map(r=>`<article class="room"><div class="number">${esc(r.room)}</div><div><h3>${r.name?esc(r.name):'აუდიტორია '+esc(r.room)}</h3><div class="sub">ტევადობა: ${r.capacity>0?r.capacity+' ადგილი':'მონაცემი არ არის'} · განრიგში გამოყენება: ${r.usage}</div></div><div class="floor">${r.floor} სართული</div></article>`).join('');
-}
-q.addEventListener('input',render); floor.addEventListener('change',render); render();
-</script>
-</body></html>
