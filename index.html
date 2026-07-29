@@ -403,6 +403,32 @@ body.map-open{overflow:hidden}
   .lang-btn{min-width:40px;padding:7px 9px}
 }
 
+
+/* Fixed starting point: Main elevators */
+.start-fixed-wrap{display:flex;align-items:center;gap:10px}
+.start-fixed-badge{
+  width:100%;
+  min-height:52px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 16px;
+  border:1px solid rgba(212,0,32,.28);
+  border-radius:14px;
+  background:linear-gradient(135deg,#fff5f6,#fff);
+  color:var(--red);
+  font-weight:800;
+  box-shadow:0 8px 22px rgba(212,0,32,.10);
+}
+.start-fixed-badge .pin{font-size:21px;line-height:1}
+.start-fixed-badge .fixed-note{
+  margin-left:auto;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+}
+#startPoint{display:none}
+
 </style>
 </head>
 <body>
@@ -420,7 +446,18 @@ body.map-open{overflow:hidden}
   <div class="room-entry-wrap"><input id="roomInput" class="control" type="text" inputmode="text" autocomplete="off" placeholder="მაგ.: 214, 508, 606A" aria-label="ჩაწერეთ აუდიტორიის ნომერი"></div>
 </div>
 <small class="hint">შეგიძლიათ აუდიტორია აირჩიოთ სიიდან ან ნომერი ხელით ჩაწეროთ.</small></div>
-    <div class="field"><label for="startPoint" id="startLabel">თქვენი მდებარეობა</label><select id="startPoint" class="control"><option value="lift">მთავარი ლიფტები</option><option value="west">დასავლეთის კიბე</option><option value="east">აღმოსავლეთის კიბე</option><option value="south">სამხრეთის კიბე</option></select><span class="hint" id="startHint">შეგიძლიათ აირჩიოთ საიდან იწყებთ მოძრაობას.</span></div>
+    <div class="field"><label for="startPoint" id="startLabel">თქვენი მდებარეობა</label>
+<div class="start-fixed-wrap">
+  <div class="start-fixed-badge" aria-live="polite">
+    <span class="pin">📍</span>
+    <span id="startFixedText">მთავარი ლიფტები</span>
+    <span class="fixed-note" id="startFixedNote">საწყისი წერტილი</span>
+  </div>
+</div>
+<select id="startPoint" aria-hidden="true" tabindex="-1">
+  <option value="lift" selected>მთავარი ლიფტები</option>
+</select>
+<span class="hint" id="startHint">მარშრუტი ავტომატურად იწყება მთავარი ლიფტებიდან.</span></div>
     <div class="actions"><button id="go" class="btn primary" disabled><span class="button-icon">●</span> <span id="goText">მარშრუტის მოძებნა</span></button><button id="clear" class="btn secondary"><span class="reset-icon">↻</span> <span id="clearText">გასუფთავება</span></button></div>
     <div id="status" class="status">აირჩიეთ მდებარეობა და აუდიტორია.</div><ul id="steps" class="steps"></ul>
   </main>
@@ -696,7 +733,12 @@ status.textContent='აირჩიეთ შენობა და აუდი
     const startSelect=document.getElementById('startPoint');
     if(startSelect){
       [...startSelect.options].forEach((o,i)=>{if(x.starts[i])o.textContent=x.starts[i]});
+      startSelect.value='lift';
     }
+    const startFixedText=document.getElementById('startFixedText');
+    const startFixedNote=document.getElementById('startFixedNote');
+    if(startFixedText) startFixedText.textContent=x.starts[0];
+    if(startFixedNote) startFixedNote.textContent=lang==='ka'?'საწყისი წერტილი':'Starting point';
 
     const plan=document.getElementById('plan');
     if(plan) plan.alt=x.floorPlanAlt;
