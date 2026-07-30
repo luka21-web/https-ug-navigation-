@@ -491,16 +491,38 @@ function destinationMapLabel(value){
   return destinationNames[currentLang][value] ? `${destinationNames[currentLang][value]} — ${value}` : value;
 }
 const q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)];const plan=q('#plan'),overlay=q('#overlay'),room=q('#room'),roomInput=q('#roomInput'),startPoint=q('#startPoint'),status=q('#status'),steps=q('#steps'),goBtn=q('#go'),floorSelect=q('#floorSelect'),mapTitle=q('#mapTitle');let visibleFloor=1;
+
+/* Keep a permanent catalogue because some mobile browsers ignore hidden <option>. */
+const roomCatalog=[...room.options].slice(1).map(opt=>({
+  value:opt.value,
+  floor:String(opt.dataset.floor || ''),
+  text:opt.textContent
+}));
+
+function findRoomInCatalog(value){
+  const normalized=String(value || '').trim().toUpperCase();
+  return roomCatalog.find(item=>item.value.toUpperCase()===normalized);
+}
+
 function filterRooms(f){
-  const floor=Number(f);
-  room.disabled=false;
-  room.options[0].textContent=currentLang==='ka'?'აირჩიეთ აუდიტორია':'Select a room';
-  [...room.options].forEach((opt,i)=>{
-    if(i===0){opt.hidden=false;opt.disabled=false;return;}
-    const same=Number(opt.dataset.floor)===floor;
-    opt.hidden=!same;
-    opt.disabled=!same;
+  const floor=String(f);
+  const placeholder=document.createElement('option');
+  placeholder.value='';
+  placeholder.textContent=currentLang==='ka'?'აირჩიეთ აუდიტორია':'Select a room';
+  placeholder.selected=true;
+
+  const floorRooms=roomCatalog.filter(item=>item.floor===floor);
+  room.replaceChildren(placeholder);
+
+  floorRooms.forEach(item=>{
+    const option=document.createElement('option');
+    option.value=item.value;
+    option.dataset.floor=item.floor;
+    option.textContent=item.text;
+    room.appendChild(option);
   });
+
+  room.disabled=floorRooms.length===0;
   room.value='';
   if(roomInput){roomInput.value='';roomInput.classList.remove('room-input-error');}
 }
@@ -617,19 +639,19 @@ function applyTypedRoom(openMap=true){
   const typed=roomInput.value.trim().toUpperCase();
   roomInput.value=typed;
   if(!typed){room.value='';goBtn.disabled=true;roomInput.classList.remove('room-input-error');return false;}
-  const option=[...room.options].find(o=>o.value.toUpperCase()===typed);
-  if(!option){room.value='';goBtn.disabled=true;roomInput.classList.add('room-input-error');status.textContent=currentLang==='ka'?'მითითებული აუდიტორია სიაში ვერ მოიძებნა.':'The entered room was not found.';return false;}
-  const targetFloor=Number(option.dataset.floor);
+  const catalogItem=findRoomInCatalog(typed);
+  if(!catalogItem){room.value='';goBtn.disabled=true;roomInput.classList.add('room-input-error');status.textContent=currentLang==='ka'?'მითითებული აუდიტორია სიაში ვერ მოიძებნა.':'The entered room was not found.';return false;}
+  const targetFloor=Number(catalogItem.floor);
   if(targetFloor!==visibleFloor){floorSelect.value=String(targetFloor);showFloor(targetFloor,true);}
-  room.value=option.value;
-  roomInput.value=option.value.toUpperCase();
+  room.value=catalogItem.value;
+  roomInput.value=catalogItem.value.toUpperCase();
   roomInput.classList.remove('room-input-error');
   goBtn.disabled=false;
   status.textContent=currentLang==='ka'?`არჩეულია ${destinationLabel(option.value)}, ${targetFloor} სართული.`:`Selected: ${destinationLabel(option.value)}, Floor ${targetFloor}.`;
   if(openMap)requestAnimationFrame(drawRoute);
   return true;
 }
-roomInput.addEventListener('input',()=>{roomInput.classList.remove('room-input-error');const typed=roomInput.value.trim().toUpperCase();const option=[...room.options].find(o=>o.value.toUpperCase()===typed);goBtn.disabled=!option;});
+roomInput.addEventListener('input',()=>{roomInput.classList.remove('room-input-error');const typed=roomInput.value.trim().toUpperCase();const option=findRoomInCatalog(typed);goBtn.disabled=!option;});
 roomInput.addEventListener('change',()=>applyTypedRoom(true));
 roomInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();applyTypedRoom(true);}});
 startPoint.addEventListener('change',()=>{if(room.value){requestAnimationFrame(drawRoute)}});
